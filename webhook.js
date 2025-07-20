@@ -13,7 +13,15 @@ app.use(bodyParser.json());
 app.post('/webhook-mercadopago', async (req, res) => {
   const { topic, id } = req.query;
 
-  console.log('🔔 Webhook recebida:', { topic, id });
+  console.log('📩 Requisição recebida:');
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  console.log('Query:', req.query);
+
+  if (!topic || !id) {
+    console.warn('⚠️ Requisição ignorada — faltando topic ou id');
+    return res.sendStatus(400);
+  }
 
   if (topic === 'payment') {
     try {
@@ -24,11 +32,14 @@ app.post('/webhook-mercadopago', async (req, res) => {
       });
 
       const pagamento = await response.json();
+
       console.log('📦 Detalhes do pagamento:', pagamento);
 
       if (pagamento.status === 'approved') {
         console.log(`✅ Pagamento aprovado para ID ${pagamento.id}`);
-        // Aqui você pode liberar produto, registrar no banco, etc.
+        // Aqui: liberar produto, chave, cargo, etc.
+      } else {
+        console.log(`ℹ️ Pagamento com status: ${pagamento.status}`);
       }
 
       return res.sendStatus(200);
