@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // 🔐 Substitua pelo seu token real do Mercado Pago
-const ACCESS_TOKEN = 'SEU_TOKEN_DO_MERCADO_PAGO';
+const ACCESS_TOKEN = 'APP_USR-1378505679701152-062318-23aa10aba2feed996702d01a0eeb5855-2035935017';
 
 app.use(bodyParser.json());
 
@@ -42,5 +42,5 @@ app.post('/webhook-mercadopago', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Webhook ativa em http://localhost:${PORT}/webhook-mercadopago`);
+  console.log(`🚀 Webhook ativa na rota /webhook-mercadopago na porta ${PORT}`);
 });
